@@ -48,6 +48,22 @@ IBM ODM : règles métier versionnées et explicables
 ACCEPT / REJECT / REVIEW / PRICE / COVERAGE
 ```
 
+## Stratégie de déploiement
+
+Le projet doit être **portable et testable sur deux cibles** sans dupliquer la logique métier :
+
+1. **OpenShift Local / CRC — cible prioritaire des labs locaux**
+   - exécution sur le poste de développement ;
+   - validation des manifests, Routes, Secrets, ConfigMaps, probes, quotas, NetworkPolicy et GitOps ;
+   - preuve de fonctionnement conservée dans le dépôt avant de déclarer un lab exécuté.
+
+2. **Azure — cible cloud alternative**
+   - **AKS** comme cible Kubernetes Azure de référence pour les labs cloud ;
+   - **Azure Red Hat OpenShift (ARO)** documenté comme option entreprise lorsque la cible doit rester OpenShift managé sur Azure ;
+   - les services ODM/AI doivent conserver les mêmes contrats API et règles de décision entre local et cloud.
+
+Principe : **OpenShift Local d’abord, Azure ensuite**. Aucun service Azure coûteux ne doit rester déployé inutilement après un lab.
+
 ## Périmètre technique cible
 
 - IBM ODM : Decision Center, Decision Server, Decision Services, Rule Designer ;
@@ -57,7 +73,8 @@ ACCEPT / REJECT / REVIEW / PRICE / COVERAGE
 - ML et GenAI ;
 - MCP / agents pour l’accès gouverné aux Decision Services ;
 - OAuth2 / OIDC / mTLS ;
-- OpenShift / Kubernetes ;
+- OpenShift Local / CRC ;
+- Azure AKS, avec ARO comme option de référence ;
 - GitOps / CI-CD ;
 - observabilité, audit, SLI/SLO ;
 - HA / PRA / RTO / RPO.
@@ -68,7 +85,8 @@ ACCEPT / REJECT / REVIEW / PRICE / COVERAGE
 - tous les scénarios métier utilisent **MayaInsurance** ;
 - aucune copie de binaire IBM, JAR propriétaire ou contenu décompilé ;
 - distinguer systématiquement **architecture cible**, **POC**, **lab exécuté** et **hypothèse** ;
-- chaque itération doit être récupérable, documentée et testable indépendamment.
+- chaque itération doit être récupérable, documentée et testable indépendamment ;
+- éviter tout fork fonctionnel entre la variante OpenShift Local et la variante Azure.
 
 ## État
 
