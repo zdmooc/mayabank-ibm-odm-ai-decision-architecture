@@ -30,6 +30,32 @@ flowchart LR
 
 Une sortie d’AI n’est jamais considérée comme une politique métier. Toute décision sensible doit être validée par des règles explicites et/ou une revue humaine selon le niveau de risque.
 
+## Architecture de déploiement
+
+```mermaid
+flowchart TB
+    APP[MayaInsurance Decision Platform]
+    APP --> LOCAL[OpenShift Local / CRC]
+    APP --> AZ[Azure]
+    AZ --> AKS[AKS - cible cloud de lab]
+    AZ --> ARO[ARO - option OpenShift managé entreprise]
+
+    LOCAL --> LOBS[Observabilité / GitOps / Security]
+    AKS --> AOBS[Observabilité / GitOps / Security]
+    ARO --> AOBS
+```
+
+### OpenShift Local / CRC
+
+Cible prioritaire pour les développements et les labs : Decision API, IBM ODM, composants ML/GenAI, sécurité, observabilité et GitOps doivent d’abord être validés localement.
+
+### Azure
+
+- **AKS** : cible Kubernetes Azure de référence pour rejouer le lab dans le cloud.
+- **ARO** : cible optionnelle lorsqu’un contexte entreprise exige OpenShift managé sur Azure.
+
+La logique métier ODM, les modèles de décision et les contrats API ne changent pas selon la cible. Les différences sont limitées aux configurations de plateforme, overlays et IaC.
+
 ## Cible d’industrialisation
 
-À partir des itérations ultérieures : OpenShift/Kubernetes, OAuth2/OIDC, mTLS, GitOps, CI-CD, observabilité, HA/PRA et tests de performance.
+OpenShift Local / CRC pour la preuve locale, puis Azure AKS pour la validation cloud, avec ARO comme alternative d’architecture entreprise. OAuth2/OIDC, mTLS, GitOps, CI-CD, observabilité, HA/PRA et tests de performance seront ajoutés progressivement.
