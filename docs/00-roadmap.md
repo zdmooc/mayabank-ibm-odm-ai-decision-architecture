@@ -2,7 +2,16 @@
 
 ## Objectif global
 
-Construire progressivement une architecture de décision IARD moderne, gouvernée et explicable, combinant IBM ODM, ML, GenAI, API, événements et OpenShift.
+Construire progressivement une architecture de décision IARD moderne, gouvernée et explicable, combinant IBM ODM, ML, GenAI, API, événements et une trajectoire de déploiement **OpenShift Local / CRC -> Azure**.
+
+## Stratégie de déploiement transverse
+
+- **OpenShift Local / CRC** : cible prioritaire des labs et validations locales.
+- **Azure AKS** : cible cloud Kubernetes de référence.
+- **Azure Red Hat OpenShift (ARO)** : option entreprise lorsque le besoin impose OpenShift managé sur Azure.
+- Même logique métier, mêmes contrats API et mêmes Decision Services sur toutes les cibles.
+- Différences de plateforme gérées par manifests, Helm/Kustomize, overlays, secrets et IaC.
+- Aucun lab cloud coûteux ne reste déployé inutilement après validation.
 
 ## Itérations
 
@@ -14,6 +23,8 @@ Statut : **TERMINÉE**
 - fixer les règles d’anonymisation ;
 - distinguer règle / ML / GenAI / humain ;
 - définir les NFR et principes d’architecture ;
+- définir OpenShift Local / CRC comme cible prioritaire ;
+- définir Azure AKS comme cible cloud et ARO comme option ;
 - créer la roadmap.
 
 ### Itération 1 — Fondamentaux ODM
@@ -69,37 +80,49 @@ Statut : **TERMINÉE**
 - permissions, audit, garde-fous ;
 - aucune décision sensible laissée au LLM seul.
 
-### Itération 10 — OpenShift
-- déploiement ;
-- configuration ;
-- secrets ;
+### Itération 10 — Déploiement OpenShift Local / CRC
+- namespace/projet ;
+- workloads ODM et services applicatifs ;
+- Services / Routes ;
+- ConfigMaps / Secrets ;
 - NetworkPolicy ;
-- quotas ;
+- quotas / requests / limits ;
 - probes ;
-- scaling.
+- scaling ;
+- validation E2E locale avec preuves.
 
-### Itération 11 — GitOps / CI-CD
+### Itération 11 — Azure
+- portage vers AKS ;
+- ARO documenté comme alternative OpenShift managée ;
+- registry, identité, réseau, secrets et observabilité Azure ;
+- IaC et destruction contrôlée du lab ;
+- test de parité fonctionnelle Local/CRC vs Azure.
+
+### Itération 12 — GitOps / CI-CD
 - promotion multi-environnements ;
 - versioning règles/code ;
+- overlays local/Azure ;
 - rollback ;
 - quality gates.
 
-### Itération 12 — Observabilité & audit
+### Itération 13 — Observabilité & audit
 - métriques ;
 - traces ;
 - décision ID ;
 - rule/model version ;
 - SLI/SLO.
 
-### Itération 13 — HA / PRA / sécurité
+### Itération 14 — HA / PRA / sécurité
 - RTO/RPO ;
 - topologie cible ;
 - sauvegarde/reprise ;
-- tests de panne.
+- tests de panne ;
+- différences entre lab local et cible entreprise.
 
-### Itération 14 — Soutenance Architecte Solution
+### Itération 15 — Soutenance Architecte Solution
 - HLD ;
 - ADR ;
 - risques ;
 - arbitrages ;
+- comparaison OpenShift Local / AKS / ARO ;
 - scénario entretien banque/assurance.
