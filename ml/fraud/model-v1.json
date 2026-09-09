@@ -11,7 +11,7 @@
   },
   "confidence": {
     "base": 0.95,
-    "missingFeaturePenalty": 0.20,
+    "missingFeaturePenalty": 0.30,
     "minimumForPolicyUse": 0.70
   },
   "disclaimer": "Synthetic educational model. Not trained on real insurer data and not suitable for production decisions."
