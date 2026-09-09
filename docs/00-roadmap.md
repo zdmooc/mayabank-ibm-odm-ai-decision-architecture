@@ -60,16 +60,22 @@ Construire progressivement une architecture de décision IARD moderne, gouverné
 - mTLS cible entreprise ;
 - serveur/client/tests portables.
 
-### Itération 6 — Event-Driven
-- événements de décision ;
-- Kafka/AsyncAPI ;
-- audit et corrélation.
+### Itération 6 — Event-Driven — TERMINÉE
+- événements `DecisionRequested`, `DecisionCompleted`, `ReviewRequired` ;
+- AsyncAPI 3.1 ;
+- topics versionnés ;
+- Kafka-compatible local / Redpanda ;
+- correlation ID / causation ID ;
+- stratégie at-least-once + idempotence ;
+- audit et replay sans ré-exécution métier automatique.
 
 ### Itération 7 — ML dans la décision
 - score de risque/fraude ;
 - seuils ;
 - gouvernance de version de modèle ;
-- fallback sans ML.
+- confidence score ;
+- fallback sans ML ;
+- règles ODM exploitant le score.
 
 ### Itération 8 — GenAI documentaire
 - extraction de pièces ;
