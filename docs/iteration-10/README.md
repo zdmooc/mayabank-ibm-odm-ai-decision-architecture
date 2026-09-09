@@ -2,7 +2,7 @@
 
 ## Statut
 
-**PRÊTE POUR EXÉCUTION LOCALE — artefacts de build/déploiement/validation livrés ; preuve CRC encore requise avant `DONE`.**
+**TERMINÉE — déploiement CRC, rollout, probes, E2E et régression embarquée réellement validés avec `RESULT=PASS`.**
 
 ## Objectif
 
@@ -33,7 +33,8 @@ ACCEPT / REJECT / REVIEW
 - `deploy/openshift/10-workload.yaml` ;
 - `deploy/openshift/IBM_ODM_RUNTIME.md` ;
 - `scripts/local-crc/deploy.sh` ;
-- `scripts/local-crc/verify.sh`.
+- `scripts/local-crc/verify.sh` ;
+- `evidence/iteration-10/verification-summary.md`.
 
 ## Sécurité / exploitation du lab
 
@@ -49,11 +50,12 @@ ACCEPT / REJECT / REVIEW
 - Secret local non versionné en clair dans les manifests ;
 - readiness/liveness probes ;
 - Route TLS edge ;
-- NetworkPolicy default-deny + règles minimales.
+- NetworkPolicy ingress default-deny ;
+- egress restreint spécifiquement pour le pod applicatif.
 
 ## Build
 
-Le lab utilise un `BuildConfig` à source binaire. Le contenu du clone local courant est envoyé au cluster :
+Le lab utilise un `BuildConfig` à source binaire :
 
 ```bash
 oc start-build decision-api --from-dir=. --follow --wait -n mayainsurance-decision-local
@@ -61,7 +63,9 @@ oc start-build decision-api --from-dir=. --follow --wait -n mayainsurance-decisi
 
 Cela évite d'imposer Docker ou Podman sur le poste.
 
-## Exécution
+Le script de déploiement supprime temporairement l'ancien `default-deny` avant un rebuild afin de ne pas bloquer les pods OpenShift de build, puis réapplique les policies runtime et force un `rollout restart` pour charger la nouvelle image.
+
+## Exécution validée
 
 Depuis la racine du dépôt :
 
@@ -70,37 +74,33 @@ bash scripts/local-crc/deploy.sh
 bash scripts/local-crc/verify.sh
 ```
 
-Optionnel :
+Validation réelle obtenue le **2026-09-09** sur OpenShift Server **4.22.7** :
 
-```bash
-export LAB_BEARER_TOKEN='un-token-local-different'
-bash scripts/local-crc/deploy.sh
-bash scripts/local-crc/verify.sh
+```text
+Build decision-api-4: Complete
+Deployment rollout: successful
+/health/live: UP
+/health/ready: READY
+Decision E2E: ACCEPT
+E2E_ASSERTIONS=PASS
+Ran 25 tests
+OK
+RESULT=PASS
 ```
 
-## Ce que `verify.sh` contrôle
+La preuve locale produite par le script :
 
-- connexion `oc` ;
-- ressources Kubernetes/OpenShift ;
-- rollout du Deployment ;
-- build ;
-- Route ;
-- `/health/live` ;
-- `/health/ready` ;
-- décision Underwriting E2E ;
-- `decision=ACCEPT` attendu ;
-- propagation du `correlationId` ;
-- tests portables API/Event/ML/GenAI/MCP exécutés dans le pod.
+`evidence/iteration-10/verify-20260909-140228.txt`
 
-Une preuve est écrite dans :
+Le résumé versionné est disponible dans :
 
-`evidence/iteration-10/verify-<timestamp>.txt`
+`evidence/iteration-10/verification-summary.md`
 
 ## IBM ODM réel
 
 Le runtime IBM ODM n'est volontairement pas inclus dans le dépôt public. Voir `deploy/openshift/IBM_ODM_RUNTIME.md`.
 
-Le lab CRC de cette itération valide l'architecture portable et le contrat de décision. Un futur overlay privé/licencié pourra substituer un adapter ODM réel.
+La validation CRC prouve l'exécution de l'architecture portable et du contrat de décision. Elle ne prétend pas prouver l'exécution d'un runtime IBM ODM licencié.
 
 ## Critères de sortie
 
@@ -113,10 +113,11 @@ Le lab CRC de cette itération valide l'architecture portable et le contrat de d
 - [x] probes ;
 - [x] script de déploiement ;
 - [x] script de validation automatisé ;
-- [ ] rollout réellement validé sur le CRC de l'utilisateur ;
-- [ ] test E2E réellement vert sur CRC ;
-- [ ] preuve `evidence/iteration-10/...` conservée.
+- [x] rollout réellement validé sur CRC ;
+- [x] test E2E réellement vert sur CRC ;
+- [x] 25 tests portables exécutés dans le pod avec `OK` ;
+- [x] preuve locale générée et résumé versionné.
 
-## Gate
+## Prochaine étape
 
-**Ne pas marquer I10 `DONE` avant obtention de la preuve CRC.**
+**Itération 11 — Azure AKS / ARO : cible cloud, IaC, registry, identité, réseau, secrets, parité fonctionnelle avec CRC et maîtrise des coûts.**
