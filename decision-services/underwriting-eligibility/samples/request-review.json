@@ -1,0 +1,9 @@
+{
+  "requestId": "REQ-REVIEW-001",
+  "applicantAge": 42,
+  "productType": "AUTO",
+  "drivingLicenseYears": 8,
+  "recentClaims": 0,
+  "incompleteFile": true,
+  "declaredRiskLevel": "LOW"
+}
