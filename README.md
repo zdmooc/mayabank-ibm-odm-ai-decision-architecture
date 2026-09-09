@@ -10,6 +10,7 @@ Le dépôt montre comment relier :
 
 ```text
 Besoin métier IARD
+  -> DDD / bounded contexts
   -> modèle de décision
   -> règles déterministes IBM ODM
   -> scores / prédictions ML
@@ -30,6 +31,19 @@ Plateforme fictive **MayaInsurance IARD** :
 - traitement de sinistres ;
 - détection de fraude ;
 - décisions nécessitant une revue humaine.
+
+## Modèle métier
+
+Bounded contexts cœur :
+
+- **Underwriting** ;
+- **Pricing** ;
+- **Claim** ;
+- **Fraud**.
+
+Supporting domains : **Policy**, **Party**, **Document**.
+
+Principe : **DDD porte les frontières métier ; IBM ODM est la plateforme d’exécution et de gouvernance des politiques de décision. ODM n’est pas un bounded context métier.**
 
 ## Principe architectural
 
@@ -62,13 +76,14 @@ Le projet doit être **portable et testable sur deux cibles** sans dupliquer la 
    - **Azure Red Hat OpenShift (ARO)** documenté comme option entreprise lorsque la cible doit rester OpenShift managé sur Azure ;
    - les services ODM/AI doivent conserver les mêmes contrats API et règles de décision entre local et cloud.
 
-Principe : **OpenShift Local d’abord, Azure ensuite**. Aucun service Azure coûteux ne doit rester déployé inutilement après un lab.
+Principe : **OpenShift Local d’abord, Azure ensuite**.
 
 ## Périmètre technique cible
 
 - IBM ODM : Decision Center, Decision Server, Decision Services, Rule Designer ;
 - XOM / BOM / vocabulaire métier / BAL ;
 - Decision Tables et Ruleflows ;
+- DDD / Context Map / C4 logique ;
 - REST / OpenAPI ;
 - ML et GenAI ;
 - MCP / agents pour l’accès gouverné aux Decision Services ;
@@ -86,17 +101,18 @@ Principe : **OpenShift Local d’abord, Azure ensuite**. Aucun service Azure co�
 - aucune copie de binaire IBM, JAR propriétaire ou contenu décompilé ;
 - distinguer systématiquement **architecture cible**, **POC**, **lab exécuté** et **hypothèse** ;
 - chaque itération doit être récupérable, documentée et testable indépendamment ;
-- éviter tout fork fonctionnel entre la variante OpenShift Local et la variante Azure.
+- éviter tout fork fonctionnel entre OpenShift Local et Azure.
 
 ## État
 
 - **Itération 0 — Initialisation et cadrage : TERMINÉE**
 - **Itération 1 — Fondamentaux ODM & premier Decision Service IARD : TERMINÉE**
-- **Prochaine : Itération 2 — Modèle métier IARD / DDD**
+- **Itération 2 — DDD / modèle métier IARD : TERMINÉE**
+- **Prochaine : Itération 3 — Souscription & éligibilité**
 
-Voir `docs/iteration-01/README.md`.
+Voir `docs/iteration-02/README.md`.
 
-## Validation portable
+## Validation portable I1
 
 ```bash
 python tools/validate_iteration_01.py
@@ -106,4 +122,4 @@ Cette validation contrôle la spécification portable et les scénarios ACCEPT/R
 
 ## Roadmap
 
-Voir `docs/00-roadmap.md`.
+Voir `docs/00-roadmap.md` et `docs/BACKLOG.md`.
