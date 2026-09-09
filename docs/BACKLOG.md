@@ -75,13 +75,15 @@ Construire un POC démontrable d’architecture de décision IARD combinant IBM 
 
 **DoD atteint** : AsyncAPI 3.1, topics versionnés, configuration Redpanda/Kafka-compatible locale, journal synthétique, correlation/causation IDs, stratégie at-least-once/idempotence, replay d’audit et tests de non-régression. Le replay ne ré-exécute jamais automatiquement une décision sensible.
 
-### I7 — ML dans la décision — P0
-- [ ] Modèle simple de scoring risque/fraude
-- [ ] Version du modèle
-- [ ] Confidence score
-- [ ] Fallback sans ML
-- [ ] Règles ODM exploitant le score
-- [ ] Tests sur seuils
+### I7 — ML dans la décision — DONE
+- [x] Modèle simple de scoring risque/fraude
+- [x] Version du modèle
+- [x] Confidence score
+- [x] Fallback sans ML
+- [x] Règles ODM exploitant le score
+- [x] Tests sur seuils
+
+**DoD atteint** : modèle synthétique `fraud-risk-v1`, score et confiance versionnés, fallback sur indisponibilité/faible confiance, politique ODM portable et tests `python -m unittest tests/test_ml_fraud.py`. Le ML ne peut jamais produire seul un rejet automatique.
 
 ### I8 — GenAI documentaire — P1
 - [ ] Extraction structurée depuis document synthétique
