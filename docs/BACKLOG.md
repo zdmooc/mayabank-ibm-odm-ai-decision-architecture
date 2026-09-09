@@ -94,12 +94,14 @@ Construire un POC démontrable d’architecture de décision IARD combinant IBM 
 
 **DoD atteint** : JSON Schema, prompt contract, adapter portable sur sorties GenAI synthétiques, seuil de confiance, fallback fournisseur indisponible, human review et tests. Seules les extractions validées sont transmises à ODM ; aucun fournisseur LLM réel n’est revendiqué comme exécuté.
 
-### I9 — MCP & Agentic AI — P1
-- [ ] Exposer Decision Services comme tools
-- [ ] MCP server de démonstration
-- [ ] Permissions et scopes
-- [ ] Audit tool calls
-- [ ] Garde-fous agentiques
+### I9 — MCP & Agentic AI — DONE
+- [x] Exposer Decision Services comme tools
+- [x] MCP server de démonstration portable
+- [x] Permissions et scopes
+- [x] Audit tool calls
+- [x] Garde-fous agentiques
+
+**DoD atteint** : cible MCP `2026-07-28`, catalogue de tools Underwriting/Claim/Audit, policies de scopes, serveur portable stateless-compatible, correlation/toolCall IDs, refus explicite des tools/scopes interdits, audit synthétique et tests. Aucun agent ne peut override une règle, convertir `REVIEW` en décision finale, déclencher un paiement ou déployer une RuleApp.
 
 ### I10 — OpenShift Local / CRC — P0
 - [ ] Namespace/projet
