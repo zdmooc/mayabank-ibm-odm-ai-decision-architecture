@@ -1,0 +1,71 @@
+openapi: 3.1.0
+info:
+  title: MayaInsurance Underwriting Eligibility Decision API
+  version: 1.0.0
+  description: API pédagogique et fictive pour un Decision Service IARD.
+paths:
+  /decisions/underwriting-eligibility:
+    post:
+      operationId: decideUnderwritingEligibility
+      summary: Évaluer l’éligibilité d’une demande IARD
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnderwritingRequest'
+      responses:
+        '200':
+          description: Décision calculée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnderwritingDecision'
+components:
+  schemas:
+    UnderwritingRequest:
+      type: object
+      required:
+        - requestId
+        - applicantAge
+        - productType
+        - recentClaims
+        - incompleteFile
+        - declaredRiskLevel
+      properties:
+        requestId:
+          type: string
+        applicantAge:
+          type: integer
+          minimum: 0
+        productType:
+          type: string
+          enum: [AUTO, HOME]
+        drivingLicenseYears:
+          type: integer
+          minimum: 0
+          nullable: true
+        recentClaims:
+          type: integer
+          minimum: 0
+        incompleteFile:
+          type: boolean
+        declaredRiskLevel:
+          type: string
+          enum: [LOW, MEDIUM, HIGH]
+    UnderwritingDecision:
+      type: object
+      required: [requestId, decision, reasonCodes, decisionVersion]
+      properties:
+        requestId:
+          type: string
+        decision:
+          type: string
+          enum: [ACCEPT, REJECT, REVIEW]
+        reasonCodes:
+          type: array
+          items:
+            type: string
+        decisionVersion:
+          type: string
+          const: iard-underwriting-v1
