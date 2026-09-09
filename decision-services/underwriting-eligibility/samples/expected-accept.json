@@ -1,0 +1,6 @@
+{
+  "requestId": "REQ-ACCEPT-001",
+  "decision": "ACCEPT",
+  "reasonCodes": ["ELIGIBLE_STANDARD"],
+  "decisionVersion": "iard-underwriting-v1"
+}
