@@ -37,18 +37,19 @@ Construire progressivement une architecture de décision IARD moderne, gouverné
 - décisions / événements ;
 - vue C4 logique.
 
-### Itération 3 — Souscription & éligibilité
+### Itération 3 — Souscription & éligibilité — TERMINÉE
 - règles d’éligibilité ;
 - tarification simple ;
 - garanties / exclusions / franchises ;
 - exceptions ;
 - tests de non-régression.
 
-### Itération 4 — Sinistre & fraude
+### Itération 4 — Sinistre & fraude — TERMINÉE
 - règles de couverture ;
 - franchise ;
-- score fraude ;
-- human review.
+- score fraude simulé ;
+- human review ;
+- audit Decision ID + versions.
 
 ### Itération 5 — API & intégration
 - REST/OpenAPI ;
