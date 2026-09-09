@@ -1,0 +1,152 @@
+openapi: 3.1.0
+info:
+  title: MayaInsurance Decision API
+  version: 1.0.0
+  description: Façade API fictive et portable pour les Decision Services IARD.
+servers:
+  - url: https://decision-api.example.invalid
+security:
+  - oauth2: [decision:underwriting]
+paths:
+  /v1/decisions/underwriting:
+    post:
+      operationId: decideUnderwriting
+      security:
+        - oauth2: [decision:underwriting]
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+        - $ref: '#/components/parameters/CorrelationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnderwritingRequest'
+      responses:
+        '200':
+          description: Décision de souscription calculée
+          headers:
+            X-Correlation-Id:
+              schema: {type: string}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/DecisionResponse'}
+        '400': {$ref: '#/components/responses/Problem'}
+        '401': {$ref: '#/components/responses/Problem'}
+        '403': {$ref: '#/components/responses/Problem'}
+        '409': {$ref: '#/components/responses/Problem'}
+        '503': {$ref: '#/components/responses/Problem'}
+        '504': {$ref: '#/components/responses/Problem'}
+  /v1/decisions/claims:
+    post:
+      operationId: decideClaim
+      security:
+        - oauth2: [decision:claim]
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+        - $ref: '#/components/parameters/CorrelationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimRequest'
+      responses:
+        '200':
+          description: Décision sinistre calculée
+          headers:
+            X-Correlation-Id:
+              schema: {type: string}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/DecisionResponse'}
+        '400': {$ref: '#/components/responses/Problem'}
+        '401': {$ref: '#/components/responses/Problem'}
+        '403': {$ref: '#/components/responses/Problem'}
+        '409': {$ref: '#/components/responses/Problem'}
+        '503': {$ref: '#/components/responses/Problem'}
+        '504': {$ref: '#/components/responses/Problem'}
+  /health/live:
+    get:
+      security: []
+      responses:
+        '200': {description: Process alive}
+  /health/ready:
+    get:
+      security: []
+      responses:
+        '200': {description: Ready}
+        '503': {description: Not ready}
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://iam.example.invalid/oauth2/token
+          scopes:
+            decision:underwriting: Invoke underwriting decisions
+            decision:claim: Invoke claim decisions
+            decision:audit.read: Read decision audit metadata
+  parameters:
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema: {type: string, minLength: 8, maxLength: 128}
+    CorrelationId:
+      name: X-Correlation-Id
+      in: header
+      required: false
+      schema: {type: string, maxLength: 128}
+  schemas:
+    UnderwritingRequest:
+      type: object
+      required: [requestId, applicantAge, productType, recentClaims, incompleteFile, declaredRiskLevel]
+      properties:
+        requestId: {type: string}
+        applicantAge: {type: integer, minimum: 0}
+        productType: {type: string, enum: [AUTO, HOME]}
+        drivingLicenseYears: {type: [integer, 'null'], minimum: 0}
+        recentClaims: {type: integer, minimum: 0}
+        incompleteFile: {type: boolean}
+        declaredRiskLevel: {type: string, enum: [LOW, MEDIUM, HIGH]}
+    ClaimRequest:
+      type: object
+      required: [claimId, policyActive, coveragePresent, eventCovered, claimedAmount, deductible, fraudScore]
+      properties:
+        claimId: {type: string}
+        policyActive: {type: boolean}
+        coveragePresent: {type: boolean}
+        eventCovered: {type: boolean}
+        claimedAmount: {type: number, minimum: 0}
+        deductible: {type: number, minimum: 0}
+        fraudScore: {type: number, minimum: 0, maximum: 1}
+    DecisionResponse:
+      type: object
+      required: [decisionId, decision, reasonCodes, decisionVersion, correlationId]
+      properties:
+        decisionId: {type: string}
+        decision: {type: string}
+        reasonCodes:
+          type: array
+          items: {type: string}
+        decisionVersion: {type: string}
+        correlationId: {type: string}
+        humanReviewRequired: {type: boolean}
+    ProblemDetails:
+      type: object
+      required: [type, title, status, code, correlationId]
+      properties:
+        type: {type: string}
+        title: {type: string}
+        status: {type: integer}
+        code: {type: string}
+        detail: {type: string}
+        correlationId: {type: string}
+  responses:
+    Problem:
+      description: Erreur normalisée
+      content:
+        application/problem+json:
+          schema: {$ref: '#/components/schemas/ProblemDetails'}
