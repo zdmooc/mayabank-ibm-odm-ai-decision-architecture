@@ -1,4 +1,5 @@
 import importlib.util
+import os
 import pathlib
 import unittest
 
@@ -12,8 +13,9 @@ SPEC.loader.exec_module(MOD)
 class DecisionApiTests(unittest.TestCase):
     def setUp(self):
         MOD.IDEMPOTENCY_STORE.clear()
+        bearer_token = os.getenv("LAB_BEARER_TOKEN", "synthetic-token")
         self.headers = {
-            "Authorization": "Bearer synthetic-token",
+            "Authorization": f"Bearer {bearer_token}",
             "Idempotency-Key": "idem-key-0001",
             "X-Correlation-Id": "COR-TEST-001",
         }
