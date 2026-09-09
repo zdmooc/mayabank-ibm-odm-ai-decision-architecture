@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
@@ -72,11 +73,20 @@ def decide_claim(payload: dict[str, Any], correlation_id: str) -> dict[str, Any]
     }
 
 
+def _authorized(auth_header: str) -> bool:
+    if not auth_header.startswith("Bearer "):
+        return False
+    expected = os.getenv("LAB_BEARER_TOKEN", "").strip()
+    if not expected:
+        return True
+    return auth_header == f"Bearer {expected}"
+
+
 def process_decision(path: str, payload: dict[str, Any], headers: dict[str, str]) -> tuple[int, dict[str, Any], str]:
     correlation_id = headers.get("X-Correlation-Id") or f"COR-{uuid.uuid4()}"
     auth = headers.get("Authorization", "")
-    if not auth.startswith("Bearer "):
-        return 401, problem(401, "UNAUTHORIZED", "Bearer token required", correlation_id), correlation_id
+    if not _authorized(auth):
+        return 401, problem(401, "UNAUTHORIZED", "Valid Bearer token required", correlation_id), correlation_id
 
     idem_key = headers.get("Idempotency-Key", "")
     if len(idem_key) < 8:
@@ -107,7 +117,7 @@ def process_decision(path: str, payload: dict[str, Any], headers: dict[str, str]
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "MayaInsuranceDecisionAPI/0.1"
+    server_version = "MayaInsuranceDecisionAPI/0.2"
 
     def _write(self, status: int, body: dict[str, Any], correlation_id: str, content_type: str = "application/json") -> None:
         raw = json.dumps(body, ensure_ascii=False).encode("utf-8")
@@ -123,7 +133,7 @@ class Handler(BaseHTTPRequestHandler):
         if self.path == "/health/live":
             self._write(200, {"status": "UP"}, correlation_id)
         elif self.path == "/health/ready":
-            self._write(200, {"status": "READY"}, correlation_id)
+            self._write(200, {"status": "READY", "mode": os.getenv("DECISION_MODE", "portable")}, correlation_id)
         else:
             self._write(404, problem(404, "NOT_FOUND", "Endpoint not found", correlation_id), correlation_id, "application/problem+json")
 
@@ -150,8 +160,10 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main() -> None:
-    server = ThreadingHTTPServer(("127.0.0.1", 8080), Handler)
-    print("MayaInsurance Decision API reference listening on http://127.0.0.1:8080")
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", "8080"))
+    server = ThreadingHTTPServer((host, port), Handler)
+    print(f"MayaInsurance Decision API reference listening on http://{host}:{port}")
     server.serve_forever()
 
 
