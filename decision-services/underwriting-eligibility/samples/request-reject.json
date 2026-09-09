@@ -1,0 +1,9 @@
+{
+  "requestId": "REQ-REJECT-001",
+  "applicantAge": 17,
+  "productType": "HOME",
+  "drivingLicenseYears": null,
+  "recentClaims": 0,
+  "incompleteFile": false,
+  "declaredRiskLevel": "LOW"
+}
