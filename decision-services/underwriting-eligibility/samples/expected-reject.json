@@ -1,0 +1,6 @@
+{
+  "requestId": "REQ-REJECT-001",
+  "decision": "REJECT",
+  "reasonCodes": ["APPLICANT_UNDER_18"],
+  "decisionVersion": "iard-underwriting-v1"
+}
