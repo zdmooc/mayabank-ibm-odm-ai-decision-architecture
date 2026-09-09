@@ -30,11 +30,13 @@ Plateforme fictive **MayaInsurance IARD** :
 - garanties, exclusions et franchises ;
 - traitement de sinistres ;
 - détection de fraude ;
+- compréhension de documents ;
 - décisions nécessitant une revue humaine.
 
 ## Modèle métier
 
 Bounded contexts cœur : **Underwriting**, **Pricing**, **Claim**, **Fraud**.
+
 Supporting domains : **Policy**, **Party**, **Document**.
 
 Principe : **DDD porte les frontières métier ; IBM ODM est la plateforme d’exécution et de gouvernance des politiques de décision. ODM n’est pas un bounded context métier.**
@@ -54,116 +56,103 @@ IBM ODM : règles métier versionnées et explicables
 ACCEPT / REJECT / REVIEW / PRICE / COVERAGE
 ```
 
-L’IA ne remplace pas la politique métier.
+**Le ML prédit, le GenAI extrait, IBM ODM applique la politique métier, l’humain traite les exceptions sensibles.**
 
-## Souscription IARD v1
+## Souscription IARD
 
-Les Itérations 1 à 3 fournissent :
-
-- Decision Service portable d’éligibilité ;
-- modèle DDD IARD ;
-- tarification simple fictive ;
-- garanties / exclusions / franchises ;
-- dataset synthétique de non-régression.
+Validations portables :
 
 ```bash
 python tools/validate_iteration_01.py
 python tools/validate_iteration_03.py
-```
-
-## Sinistre & fraude v1
-
-L’Itération 4 ajoute couverture, franchise, indemnisation, score fraude simulé, human review et audit versionné.
-
-```bash
 python tools/validate_iteration_04.py
 ```
 
-Principe : **un score de fraude ne peut pas rejeter seul une décision sensible.**
-
 ## Decision API v1
 
-L’Itération 5 ajoute : REST/OpenAPI 3.1, idempotence, correlation ID, erreurs normalisées, timeout/retry, OAuth2/OIDC cible et mTLS entreprise.
+- `POST /v1/decisions/underwriting` ;
+- `POST /v1/decisions/claims` ;
+- OpenAPI 3.1 ;
+- idempotence ;
+- correlation ID ;
+- erreurs `ProblemDetails` ;
+- OAuth2/OIDC et mTLS documentés en cible.
 
 ```bash
 python -m unittest tests/test_decision_api.py
-python api/reference_decision_api.py
 ```
 
 ## Event-Driven v1
 
-L’Itération 6 ajoute `DecisionRequested`, `DecisionCompleted`, `ReviewRequired`, AsyncAPI 3.1, topics versionnés, correlation/causation IDs, at-least-once + idempotence et replay d’audit.
+- `DecisionRequested` ;
+- `DecisionCompleted` ;
+- `ReviewRequired` ;
+- AsyncAPI 3.1 ;
+- Kafka-compatible / Redpanda ;
+- replay d’audit sans ré-exécution métier automatique.
 
 ```bash
 python eventing/replay.py data/synthetic/decision-events.jsonl
 python -m unittest tests/test_eventing.py
 ```
 
-Principe : **le replay ne ré-exécute jamais automatiquement une décision sensible dans ODM.**
+## ML dans la décision v1
 
-## ML Decision v1
-
-L’Itération 7 ajoute un scoring fraude synthétique gouverné :
+L’Itération 7 ajoute un scoring fraude synthétique avec :
 
 - `riskScore` ;
 - `confidenceScore` ;
 - `modelVersion` ;
 - fallback modèle indisponible/faible confiance ;
-- politique ODM qui consomme le score ;
-- aucun `REJECT` automatique piloté par le ML seul.
+- politique ODM consommant le score.
 
 ```bash
 python ml/fraud/scorer.py
-python ml/fraud/scorer.py --json
 python -m unittest tests/test_ml_fraud.py
 ```
 
-Principe : **le ML prédit ; IBM ODM applique la politique métier.**
+Principe : **aucun score ML ne produit un rejet automatique.**
+
+## GenAI documentaire v1
+
+L’Itération 8 ajoute :
+
+- JSON Schema d’extraction ;
+- prompt contract ;
+- sorties GenAI synthétiques ;
+- validation structurée ;
+- `confidenceScore` ;
+- fallback fournisseur indisponible ;
+- `HUMAN_REVIEW` si confiance insuffisante ;
+- `FORWARD_TO_ODM` uniquement si l’extraction est valide.
+
+```bash
+python genai/document-extraction/extractor.py
+python -m unittest tests/test_genai_document_extraction.py
+```
+
+Principe : **le GenAI ne produit jamais une décision métier finale.** Aucun fournisseur LLM externe n’est présenté comme réellement exécuté dans cette itération.
 
 ## Stratégie de déploiement
 
-1. **OpenShift Local / CRC — cible prioritaire des labs locaux** ;
-2. **Azure AKS — cible Kubernetes cloud de référence** ;
-3. **ARO — option entreprise OpenShift managé sur Azure**.
+1. **OpenShift Local / CRC** — cible prioritaire des labs locaux.
+2. **Azure AKS** — cible cloud Kubernetes de référence.
+3. **ARO** — option entreprise si OpenShift managé sur Azure est requis.
 
-Principe : **OpenShift Local d’abord, Azure ensuite**, sans fork fonctionnel entre les plateformes.
-
-## Périmètre technique cible
-
-- IBM ODM : Decision Center, Decision Server, Decision Services, Rule Designer ;
-- XOM / BOM / BAL / Decision Tables / Ruleflows ;
-- DDD / Context Map / C4 ;
-- REST / OpenAPI ;
-- Event-Driven / AsyncAPI / Kafka-compatible ;
-- ML / GenAI / MCP / agents ;
-- OAuth2 / OIDC / mTLS ;
-- OpenShift Local / CRC ;
-- Azure AKS / ARO ;
-- GitOps / CI-CD ;
-- observabilité / audit / SLI-SLO ;
-- HA / PRA / RTO / RPO.
+Principe : **OpenShift Local d’abord, Azure ensuite**.
 
 ## Règles du dépôt
 
-- aucun nom, donnée ou architecture interne d’une entreprise réelle ;
-- aucune copie de binaire IBM/JAR propriétaire/contenu décompilé ;
+- aucune donnée, architecture interne ou artefact confidentiel d’une entreprise réelle ;
+- scénarios fictifs MayaInsurance uniquement ;
+- aucun binaire IBM propriétaire ou contenu décompilé ;
 - distinguer architecture cible, POC, lab exécuté et hypothèse ;
-- chaque itération doit rester documentée et testable indépendamment.
+- ne pas revendiquer un runtime IBM ODM, LLM ou OpenShift exécuté sans preuve ;
+- éviter tout fork fonctionnel entre OpenShift Local et Azure.
 
 ## État
 
-- **I0 : TERMINÉE**
-- **I1 : TERMINÉE**
-- **I2 : TERMINÉE**
-- **I3 : TERMINÉE**
-- **I4 : TERMINÉE**
-- **I5 : TERMINÉE**
-- **I6 : TERMINÉE**
-- **I7 : TERMINÉE**
-- **Prochaine : Itération 8 — GenAI documentaire**
+- **I0 à I8 : TERMINÉES**
+- **Prochaine : Itération 9 — MCP & Agentic AI**
 
-Voir `docs/iteration-07/README.md`.
-
-## Roadmap
-
-Voir `docs/00-roadmap.md` et `docs/BACKLOG.md`.
+Voir `docs/iteration-08/README.md`, `docs/00-roadmap.md` et `docs/BACKLOG.md`.
