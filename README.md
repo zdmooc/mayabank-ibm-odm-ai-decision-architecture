@@ -61,9 +61,9 @@ Tools gouvernés :
 
 Le lab cible MCP `2026-07-28`. Aucun tool d’override, paiement ou déploiement automatique n’est exposé.
 
-## I10 — OpenShift Local / CRC
+## I10 — OpenShift Local / CRC — TERMINÉE
 
-**Statut : PRÊTE POUR EXÉCUTION LOCALE — preuve CRC encore requise avant `DONE`.**
+Validation réellement exécutée sur **OpenShift Local / CRC 4.22.7**.
 
 Artefacts :
 
@@ -74,29 +74,35 @@ Artefacts :
 - ConfigMap / Secret pattern ;
 - Deployment / Service / Route TLS ;
 - requests/limits ;
-- probes ;
-- NetworkPolicy default-deny ;
-- validation E2E + tests portables exécutés dans le pod ;
-- conservation automatique des preuves.
+- liveness/readiness probes ;
+- NetworkPolicy ingress default-deny + egress applicatif restreint ;
+- scripts `deploy.sh` / `verify.sh` ;
+- preuve versionnée.
 
-Depuis un clone à jour :
+Résultat réel :
 
-```bash
-git pull
-bash scripts/local-crc/deploy.sh
-bash scripts/local-crc/verify.sh
+```text
+Build decision-api-4: Complete
+Deployment rollout: successful
+/health/live: UP
+/health/ready: READY
+Decision E2E: ACCEPT
+E2E_ASSERTIONS=PASS
+Ran 25 tests
+OK
+RESULT=PASS
 ```
 
-Le résultat de `verify.sh` doit être conservé dans `evidence/iteration-10/` avant de marquer l’itération terminée.
+Voir `evidence/iteration-10/verification-summary.md`.
 
 ### IBM ODM réel
 
-Le runtime IBM ODM licencié n’est pas embarqué dans le dépôt public. La stratégie d’intégration est documentée dans `deploy/openshift/IBM_ODM_RUNTIME.md`. Le lab CRC actuel exécute la façade portable et conserve les contrats nécessaires au futur adapter ODM.
+Le runtime IBM ODM licencié n’est pas embarqué dans le dépôt public. La stratégie d’intégration est documentée dans `deploy/openshift/IBM_ODM_RUNTIME.md`. La preuve I10 concerne la façade portable et ne revendique pas l’exécution d’un runtime ODM licencié.
 
 ## Stratégie de déploiement
 
-1. **OpenShift Local / CRC** — cible prioritaire des labs locaux.
-2. **Azure AKS** — cible cloud Kubernetes de référence.
+1. **OpenShift Local / CRC** — validé en I10.
+2. **Azure AKS** — cible cloud Kubernetes de référence pour I11.
 3. **ARO** — option entreprise si OpenShift managé sur Azure est requis.
 
 Principe : **OpenShift Local d’abord, Azure ensuite**.
@@ -112,8 +118,7 @@ Principe : **OpenShift Local d’abord, Azure ensuite**.
 
 ## État
 
-- **I0 à I9 : TERMINÉES**
-- **I10 — OpenShift Local / CRC : PRÊTE À EXÉCUTER, validation locale requise**
-- **I11 Azure : après validation I10**
+- **I0 à I10 : TERMINÉES**
+- **Prochaine : I11 — Azure AKS / ARO**
 
-Voir `docs/iteration-10/README.md`, `docs/00-roadmap.md` et `docs/BACKLOG.md`.
+Voir `docs/iteration-10/README.md`, `docs/00-roadmap.md`, `docs/BACKLOG.md` et `evidence/iteration-10/verification-summary.md`.
