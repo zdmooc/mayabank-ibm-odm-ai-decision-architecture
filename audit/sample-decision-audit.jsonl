@@ -1,0 +1,3 @@
+{"decisionId":"DEC-CLM-001","claimId":"CLM-001","decision":"PAY","reasonCodes":["COVERAGE_CONFIRMED"],"ruleVersion":"claim-rules-v1","fraudScoreVersion":"fraud-score-simulated-v1","humanReviewRequired":false,"synthetic":true}
+{"decisionId":"DEC-CLM-005","claimId":"CLM-005","decision":"REVIEW","reasonCodes":["FRAUD_MEDIUM_SCORE"],"ruleVersion":"claim-rules-v1","fraudScoreVersion":"fraud-score-simulated-v1","humanReviewRequired":true,"synthetic":true}
+{"decisionId":"DEC-CLM-006","claimId":"CLM-006","decision":"REVIEW","reasonCodes":["FRAUD_HIGH_SCORE"],"ruleVersion":"claim-rules-v1","fraudScoreVersion":"fraud-score-simulated-v1","humanReviewRequired":true,"synthetic":true}
