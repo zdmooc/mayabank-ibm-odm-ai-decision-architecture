@@ -18,15 +18,15 @@ Construire un POC démontrable d’architecture de décision IARD combinant IBM 
 - [x] Roadmap
 - [x] Cible OpenShift Local/CRC puis Azure AKS/ARO
 
-### I1 — Fondamentaux IBM ODM — P0
-- [ ] Documenter Decision Center, Decision Server, Rule Designer
-- [ ] Définir XOM, BOM, vocabulaire BAL
-- [ ] Créer Decision Table et Ruleflow simples
-- [ ] Créer un premier Decision Service IARD
-- [ ] Ajouter exemples de requête/réponse
-- [ ] Ajouter tests fonctionnels minimaux
+### I1 — Fondamentaux IBM ODM — DONE
+- [x] Documenter Decision Center, Decision Server, Rule Designer
+- [x] Définir XOM, BOM, vocabulaire BAL
+- [x] Créer Decision Table et Ruleflow simples
+- [x] Créer un premier Decision Service IARD
+- [x] Ajouter exemples de requête/réponse
+- [x] Ajouter tests fonctionnels minimaux
 
-**DoD** : un Decision Service simple est documenté, testable et versionné.
+**DoD atteint** : Decision Service simple documenté, versionné et validable via `python tools/validate_iteration_01.py`. Le validateur contrôle la spécification portable ; l’exécution IBM ODM réelle viendra dans les itérations de lab.
 
 ### I2 — DDD / modèle métier IARD — P0
 - [ ] Définir bounded contexts utiles : Underwriting, Pricing, Claim, Fraud
