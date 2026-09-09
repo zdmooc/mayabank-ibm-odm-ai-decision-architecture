@@ -90,9 +90,19 @@ Principe : **OpenShift Local d’abord, Azure ensuite**. Aucun service Azure co�
 
 ## État
 
-**Itération 0 — Initialisation et cadrage : TERMINÉE**
+- **Itération 0 — Initialisation et cadrage : TERMINÉE**
+- **Itération 1 — Fondamentaux ODM & premier Decision Service IARD : TERMINÉE**
+- **Prochaine : Itération 2 — Modèle métier IARD / DDD**
 
-Voir `docs/iteration-00/README.md`.
+Voir `docs/iteration-01/README.md`.
+
+## Validation portable
+
+```bash
+python tools/validate_iteration_01.py
+```
+
+Cette validation contrôle la spécification portable et les scénarios ACCEPT/REJECT/REVIEW. Elle ne remplace pas un futur déploiement réel sur runtime IBM ODM.
 
 ## Roadmap
 
