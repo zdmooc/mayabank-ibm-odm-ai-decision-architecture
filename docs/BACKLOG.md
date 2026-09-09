@@ -103,17 +103,21 @@ Construire un POC démontrable d’architecture de décision IARD combinant IBM 
 
 **DoD atteint** : cible MCP `2026-07-28`, catalogue de tools Underwriting/Claim/Audit, policies de scopes, serveur portable stateless-compatible, correlation/toolCall IDs, refus explicite des tools/scopes interdits, audit synthétique et tests. Aucun agent ne peut override une règle, convertir `REVIEW` en décision finale, déclencher un paiement ou déployer une RuleApp.
 
-### I10 — OpenShift Local / CRC — P0
-- [ ] Namespace/projet
-- [ ] Deployments / Services / Routes
-- [ ] ConfigMaps / Secrets
-- [ ] Requests / limits / quotas
-- [ ] NetworkPolicy
-- [ ] Probes
-- [ ] Test E2E local
-- [ ] Script de validation automatisé
+### I10 — OpenShift Local / CRC — DONE
+- [x] Namespace/projet
+- [x] Deployments / Services / Routes
+- [x] ConfigMaps / Secrets
+- [x] Requests / limits / quotas
+- [x] NetworkPolicy
+- [x] Probes
+- [x] Test E2E local
+- [x] Script de validation automatisé
+- [x] Build CRC réellement validé
+- [x] Rollout réellement validé
+- [x] 25 tests portables exécutés dans le pod avec `OK`
+- [x] Preuve locale générée + résumé versionné
 
-**DoD** : le parcours IARD principal fonctionne de bout en bout sur CRC avec preuves reproductibles.
+**DoD atteint** : façade Decision API réellement déployée sur OpenShift Local/CRC 4.22.7, build binaire OpenShift, Route TLS, health checks, décision Underwriting `ACCEPT`, correlation ID, régression embarquée 25/25 et `RESULT=PASS`. Cette preuve concerne le runtime portable ; elle ne revendique pas l’exécution d’un runtime IBM ODM licencié.
 
 ### I11 — Azure AKS / ARO — P1
 - [ ] Définir cible AKS
@@ -165,9 +169,9 @@ Construire un POC démontrable d’architecture de décision IARD combinant IBM 
 - [ ] Anonymisation vérifiée
 
 ### Revue R2 — Exécutabilité
-- [ ] `git clone` propre
-- [ ] Déploiement CRC reproductible
-- [ ] Tests E2E verts
+- [x] `git clone` propre
+- [x] Déploiement CRC reproductible
+- [x] Tests E2E verts
 - [ ] GitOps opérationnel
 - [ ] Parité Azure documentée/testée
 
