@@ -122,6 +122,29 @@ python api/sample_client.py
 
 Le serveur portable ne remplace pas un API Gateway, un IAM ou un runtime IBM ODM réel.
 
+## Event-Driven v1
+
+L’Itération 6 ajoute :
+
+- `DecisionRequested` ;
+- `DecisionCompleted` ;
+- `ReviewRequired` ;
+- AsyncAPI 3.1 ;
+- topics versionnés ;
+- `correlationId` / `causationId` ;
+- stratégie at-least-once + consommateurs idempotents ;
+- journal synthétique et replay d’audit ;
+- configuration Redpanda/Kafka-compatible de laboratoire.
+
+Validation portable :
+
+```bash
+python eventing/replay.py data/synthetic/decision-events.jsonl
+python -m unittest tests/test_eventing.py
+```
+
+Principe : **un replay reconstruit audit/projections mais ne ré-exécute jamais automatiquement une décision sensible dans ODM.**
+
 ## Stratégie de déploiement
 
 Le projet doit être **portable et testable sur deux cibles** sans dupliquer la logique métier :
@@ -145,6 +168,7 @@ Principe : **OpenShift Local d’abord, Azure ensuite**.
 - Decision Tables et Ruleflows ;
 - DDD / Context Map / C4 logique ;
 - REST / OpenAPI ;
+- Event-Driven / AsyncAPI / Kafka-compatible ;
 - ML et GenAI ;
 - MCP / agents pour l’accès gouverné aux Decision Services ;
 - OAuth2 / OIDC / mTLS ;
@@ -171,9 +195,10 @@ Principe : **OpenShift Local d’abord, Azure ensuite**.
 - **Itération 3 — Souscription, tarification et offre IARD : TERMINÉE**
 - **Itération 4 — Sinistre & fraude : TERMINÉE**
 - **Itération 5 — API-First : TERMINÉE**
-- **Prochaine : Itération 6 — Event-Driven**
+- **Itération 6 — Event-Driven : TERMINÉE**
+- **Prochaine : Itération 7 — ML dans la décision**
 
-Voir `docs/iteration-05/README.md`.
+Voir `docs/iteration-06/README.md`.
 
 ## Roadmap
 
