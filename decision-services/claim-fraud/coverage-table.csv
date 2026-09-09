@@ -1,0 +1,5 @@
+priority,rule_id,policyActive,coveragePresent,eventCovered,decision,reasonCode
+100,C-REJECT-INACTIVE,false,*,*,REJECT,POLICY_INACTIVE
+90,C-REJECT-NO-COVERAGE,true,false,*,REJECT,COVERAGE_NOT_PRESENT
+80,C-REJECT-EVENT,true,true,false,REJECT,EVENT_NOT_COVERED
+10,C-COVERED,true,true,true,COVERED,COVERAGE_CONFIRMED
