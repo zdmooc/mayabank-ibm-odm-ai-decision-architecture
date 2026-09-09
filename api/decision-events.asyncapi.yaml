@@ -1,0 +1,144 @@
+asyncapi: 3.1.0
+info:
+  title: MayaInsurance Decision Events API
+  version: 1.0.0
+  description: Contrat événementiel fictif pour les décisions IARD.
+servers:
+  localKafka:
+    host: localhost:9092
+    protocol: kafka
+    description: Broker Kafka-compatible local de laboratoire.
+channels:
+  decisionRequested:
+    address: mayainsurance.decision.requested.v1
+    messages:
+      DecisionRequested:
+        $ref: '#/components/messages/DecisionRequested'
+  decisionCompleted:
+    address: mayainsurance.decision.completed.v1
+    messages:
+      DecisionCompleted:
+        $ref: '#/components/messages/DecisionCompleted'
+  reviewRequired:
+    address: mayainsurance.review.required.v1
+    messages:
+      ReviewRequired:
+        $ref: '#/components/messages/ReviewRequired'
+operations:
+  sendDecisionRequested:
+    action: send
+    channel:
+      $ref: '#/channels/decisionRequested'
+  sendDecisionCompleted:
+    action: send
+    channel:
+      $ref: '#/channels/decisionCompleted'
+  sendReviewRequired:
+    action: send
+    channel:
+      $ref: '#/channels/reviewRequired'
+components:
+  messages:
+    DecisionRequested:
+      name: DecisionRequested
+      title: Decision requested
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/EventEnvelope'
+          - type: object
+            properties:
+              eventType:
+                const: DecisionRequested
+              payload:
+                type: object
+                required: [decisionType]
+                properties:
+                  decisionType:
+                    type: string
+                    enum: [UNDERWRITING, CLAIM]
+    DecisionCompleted:
+      name: DecisionCompleted
+      title: Decision completed
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/EventEnvelope'
+          - type: object
+            required: [decisionId]
+            properties:
+              eventType:
+                const: DecisionCompleted
+              decisionId:
+                type: string
+              payload:
+                type: object
+                required: [decision, reasonCodes, ruleVersion]
+                properties:
+                  decision:
+                    type: string
+                  reasonCodes:
+                    type: array
+                    items:
+                      type: string
+                  ruleVersion:
+                    type: string
+    ReviewRequired:
+      name: ReviewRequired
+      title: Human review required
+      payload:
+        allOf:
+          - $ref: '#/components/schemas/EventEnvelope'
+          - type: object
+            required: [decisionId]
+            properties:
+              eventType:
+                const: ReviewRequired
+              decisionId:
+                type: string
+              payload:
+                type: object
+                required: [reviewType, reasonCodes]
+                properties:
+                  reviewType:
+                    type: string
+                    enum: [UNDERWRITING, FRAUD, CLAIM]
+                  reasonCodes:
+                    type: array
+                    items:
+                      type: string
+  schemas:
+    EventEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        - eventId
+        - eventType
+        - schemaVersion
+        - occurredAt
+        - correlationId
+        - aggregateType
+        - aggregateId
+        - payload
+      properties:
+        eventId:
+          type: string
+        eventType:
+          type: string
+        schemaVersion:
+          type: string
+          const: '1.0'
+        occurredAt:
+          type: string
+          format: date-time
+        correlationId:
+          type: string
+        causationId:
+          type: [string, 'null']
+        decisionId:
+          type: [string, 'null']
+        aggregateType:
+          type: string
+          enum: [UnderwritingRequest, Claim]
+        aggregateId:
+          type: string
+        payload:
+          type: object
