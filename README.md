@@ -62,6 +62,25 @@ IBM ODM : règles métier versionnées et explicables
 ACCEPT / REJECT / REVIEW / PRICE / COVERAGE
 ```
 
+## Souscription IARD v1
+
+Les Itérations 1 à 3 fournissent maintenant :
+
+- un Decision Service portable d’éligibilité ;
+- un modèle DDD IARD ;
+- une tarification simple fictive ;
+- une configuration garanties / exclusions / franchises ;
+- un dataset synthétique de non-régression.
+
+Validation :
+
+```bash
+python tools/validate_iteration_01.py
+python tools/validate_iteration_03.py
+```
+
+Ces scripts verrouillent la sémantique portable. Ils ne remplacent pas un futur déploiement sur runtime IBM ODM.
+
 ## Stratégie de déploiement
 
 Le projet doit être **portable et testable sur deux cibles** sans dupliquer la logique métier :
@@ -108,17 +127,10 @@ Principe : **OpenShift Local d’abord, Azure ensuite**.
 - **Itération 0 — Initialisation et cadrage : TERMINÉE**
 - **Itération 1 — Fondamentaux ODM & premier Decision Service IARD : TERMINÉE**
 - **Itération 2 — DDD / modèle métier IARD : TERMINÉE**
-- **Prochaine : Itération 3 — Souscription & éligibilité**
+- **Itération 3 — Souscription, tarification et offre IARD : TERMINÉE**
+- **Prochaine : Itération 4 — Sinistre & fraude**
 
-Voir `docs/iteration-02/README.md`.
-
-## Validation portable I1
-
-```bash
-python tools/validate_iteration_01.py
-```
-
-Cette validation contrôle la spécification portable et les scénarios ACCEPT/REJECT/REVIEW. Elle ne remplace pas un futur déploiement réel sur runtime IBM ODM.
+Voir `docs/iteration-03/README.md`.
 
 ## Roadmap
 
