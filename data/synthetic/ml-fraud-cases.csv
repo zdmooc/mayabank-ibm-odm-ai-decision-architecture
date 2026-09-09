@@ -1,0 +1,6 @@
+case_id,claim_amount_eur,recent_claims,late_reporting,document_inconsistency,model_available,expected_policy
+ML-001,500,0,false,false,true,STANDARD
+ML-002,12000,2,true,false,true,REVIEW
+ML-003,25000,3,true,true,true,REVIEW
+ML-004,4000,1,false,false,false,REVIEW
+ML-005,6000,,false,true,true,REVIEW
