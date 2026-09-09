@@ -28,12 +28,14 @@ Construire un POC démontrable d’architecture de décision IARD combinant IBM 
 
 **DoD atteint** : Decision Service simple documenté, versionné et validable via `python tools/validate_iteration_01.py`. Le validateur contrôle la spécification portable ; l’exécution IBM ODM réelle viendra dans les itérations de lab.
 
-### I2 — DDD / modèle métier IARD — P0
-- [ ] Définir bounded contexts utiles : Underwriting, Pricing, Claim, Fraud
-- [ ] Définir agrégats et objets métier sans sur-découpage
-- [ ] Créer dictionnaire métier
-- [ ] Relier décisions, règles, événements et API
-- [ ] Produire diagramme C4/ArchiMate logique
+### I2 — DDD / modèle métier IARD — DONE
+- [x] Définir bounded contexts utiles : Underwriting, Pricing, Claim, Fraud
+- [x] Définir agrégats et objets métier sans sur-découpage
+- [x] Créer dictionnaire métier
+- [x] Relier décisions, règles, événements et API
+- [x] Produire diagramme C4 logique
+
+**DoD atteint** : context map, modèle de domaine, ubiquitous language, matrice décisions/événements et vue C4 logique livrés. IBM ODM reste une plateforme de décision et non un bounded context métier.
 
 ### I3 — Souscription & éligibilité — P0
 - [ ] Règles d’éligibilité
