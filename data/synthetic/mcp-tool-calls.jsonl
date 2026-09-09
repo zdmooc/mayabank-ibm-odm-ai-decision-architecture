@@ -1,0 +1,4 @@
+{"toolCallId":"TC-9001","correlationId":"CORR-9001","tool":"underwriting_decision","scopes":["decision:underwriting"],"payload":{"requestId":"REQ-9001","applicantAge":42,"declaredRiskLevel":"LOW"},"expected":"ACCEPT"}
+{"toolCallId":"TC-9002","correlationId":"CORR-9002","tool":"claim_decision","scopes":["decision:claim"],"payload":{"claimId":"CLM-9002","policyActive":true,"coveredEvent":true,"fraudRisk":0.82},"expected":"REVIEW"}
+{"toolCallId":"TC-9003","correlationId":"CORR-9003","tool":"decision_audit_lookup","scopes":["decision:audit.read"],"payload":{"decisionId":"DEC-9003"},"expected":"SYNTHETIC_AUDIT_RECORD"}
+{"toolCallId":"TC-9004","correlationId":"CORR-9004","tool":"claim_decision","scopes":["decision:underwriting"],"payload":{"claimId":"CLM-9004","policyActive":true,"coveredEvent":true,"fraudRisk":0.10},"expectedError":"FORBIDDEN"}
