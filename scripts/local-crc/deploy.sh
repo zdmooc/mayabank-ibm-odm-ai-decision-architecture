@@ -25,6 +25,11 @@ oc -n "$NS" start-build decision-api --from-dir=. --follow --wait
 echo "[4/5] Runtime resources"
 oc apply -f deploy/openshift/10-workload.yaml
 
+# The Deployment references the mutable :latest ImageStream tag. Re-applying the
+# same manifest does not change the pod template, so explicitly restart the
+# Deployment after each successful build to force a fresh image pull.
+oc -n "$NS" rollout restart deployment/decision-api
+
 echo "[5/5] Rollout"
 oc -n "$NS" rollout status deployment/decision-api --timeout=180s
 
