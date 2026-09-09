@@ -1,0 +1,18 @@
+{
+  "modelName": "maya-iard-fraud-risk",
+  "modelVersion": "fraud-risk-v1",
+  "modelType": "synthetic-logistic-like",
+  "intercept": -2.0,
+  "features": {
+    "claimAmountNormalized": 1.1,
+    "recentClaimsNormalized": 1.0,
+    "lateReporting": 1.3,
+    "documentInconsistency": 1.8
+  },
+  "confidence": {
+    "base": 0.95,
+    "missingFeaturePenalty": 0.20,
+    "minimumForPolicyUse": 0.70
+  },
+  "disclaimer": "Synthetic educational model. Not trained on real insurer data and not suitable for production decisions."
+}
