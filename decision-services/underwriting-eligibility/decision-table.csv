@@ -1,0 +1,7 @@
+priority,rule_id,incompleteFile,applicantAge_lt,productType,drivingLicenseYears_lt,recentClaims_gte,declaredRiskLevel,decision,reasonCode
+100,R-REJECT-MINOR,*,18,*,*,*,*,REJECT,APPLICANT_UNDER_18
+90,R-REVIEW-INCOMPLETE,true,*,*,*,*,*,REVIEW,DOSSIER_INCOMPLET
+80,R-REVIEW-AUTO-LICENSE,false,*,AUTO,1,*,*,REVIEW,PERMIS_TROP_RECENT
+70,R-REVIEW-CLAIMS,false,*,*,*,3,*,REVIEW,SINISTRALITE_ELEVEE
+60,R-REVIEW-HIGH-RISK,false,*,*,*,*,HIGH,REVIEW,RISQUE_ELEVE
+10,R-ACCEPT-DEFAULT,false,*,*,*,*,*,ACCEPT,ELIGIBLE_STANDARD
