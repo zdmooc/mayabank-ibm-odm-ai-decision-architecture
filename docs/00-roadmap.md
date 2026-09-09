@@ -2,7 +2,7 @@
 
 ## Objectif global
 
-Construire progressivement une architecture de décision IARD moderne, gouvernée et explicable, combinant IBM ODM, ML, GenAI, API, événements et une trajectoire de déploiement **OpenShift Local / CRC -> Azure**.
+Construire progressivement une architecture de décision IARD moderne, gouvernée et explicable, combinant IBM ODM, ML, GenAI, API, événements, MCP/agents et une trajectoire de déploiement **OpenShift Local / CRC -> Azure**.
 
 ## Stratégie de déploiement transverse
 
@@ -41,17 +41,19 @@ Scoring fraude synthétique, `modelVersion`, `confidenceScore`, fallback et règ
 ### I8 — GenAI documentaire — TERMINÉE
 Extraction structurée, JSON Schema, prompt contract, confidence gating, fallback fournisseur et passage contrôlé vers ODM.
 
-### I9 — MCP & Agentic AI
-- exposer les Decision Services comme tools ;
-- MCP server de démonstration ;
-- permissions et scopes ;
-- audit des tool calls ;
-- garde-fous agentiques ;
+### I9 — MCP & Agentic AI — TERMINÉE
+- cible MCP `2026-07-28` ;
+- Decision Services exposés comme tools ;
+- scopes `decision:underwriting`, `decision:claim`, `decision:audit.read` ;
+- serveur portable stateless-compatible ;
+- correlation/toolCall IDs ;
+- audit ;
+- refus des capabilities interdites ;
 - aucune décision sensible laissée à un agent seul.
 
 ### I10 — OpenShift Local / CRC
 - namespace/projet ;
-- workloads ODM et services applicatifs ;
+- workloads applicatifs portables et intégration ODM ciblée ;
 - Services / Routes ;
 - ConfigMaps / Secrets ;
 - NetworkPolicy ;
