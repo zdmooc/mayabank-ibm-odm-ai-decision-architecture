@@ -42,32 +42,26 @@ Scoring fraude synthétique, `modelVersion`, `confidenceScore`, fallback et règ
 Extraction structurée, JSON Schema, prompt contract, confidence gating, fallback fournisseur et passage contrôlé vers ODM.
 
 ### I9 — MCP & Agentic AI — TERMINÉE
-- cible MCP `2026-07-28` ;
-- Decision Services exposés comme tools ;
-- scopes `decision:underwriting`, `decision:claim`, `decision:audit.read` ;
-- serveur portable stateless-compatible ;
-- correlation/toolCall IDs ;
-- audit ;
-- refus des capabilities interdites ;
-- aucune décision sensible laissée à un agent seul.
+Cible MCP `2026-07-28`, tools Underwriting/Claim/Audit, scopes, serveur portable stateless-compatible, audit et garde-fous agentiques.
 
-### I10 — OpenShift Local / CRC
-- namespace/projet ;
-- workloads applicatifs portables et intégration ODM ciblée ;
-- Services / Routes ;
-- ConfigMaps / Secrets ;
+### I10 — OpenShift Local / CRC — PRÊTE POUR EXÉCUTION
+- Dockerfile portable ;
+- BuildConfig binaire + ImageStream ;
+- namespace / ServiceAccount ;
+- Deployment / Service / Route TLS ;
+- ConfigMap / Secret pattern ;
+- ResourceQuota / LimitRange ;
+- requests / limits ;
 - NetworkPolicy ;
-- quotas / requests / limits ;
-- probes / scaling ;
-- validation E2E locale avec preuves.
+- liveness/readiness probes ;
+- scripts `deploy.sh` et `verify.sh` ;
+- génération de preuve `evidence/iteration-10/` ;
+- runtime IBM ODM licencié documenté comme intégration future séparée.
+
+**Gate restant** : exécuter sur le CRC de l'utilisateur, obtenir rollout + E2E verts et conserver la preuve avant `DONE`.
 
 ### I11 — Azure
-- portage AKS ;
-- ARO comme alternative ;
-- registry / identité / réseau / secrets ;
-- IaC ;
-- parité fonctionnelle CRC/Azure ;
-- destruction contrôlée des ressources de lab.
+Ne démarre qu'après validation I10. Portage AKS, ARO comme alternative, registry/identité/réseau/secrets, IaC, parité CRC/Azure et destroy contrôlé.
 
 ### I12 — GitOps / CI-CD
 Promotion multi-environnements, versioning règles/code, overlays local/Azure, rollback et quality gates.
