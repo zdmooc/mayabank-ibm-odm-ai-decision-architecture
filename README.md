@@ -27,101 +27,71 @@ Besoin métier IARD
 
 ## Cas d’usage fil rouge
 
-Plateforme fictive **MayaInsurance IARD** :
-
-- souscription et éligibilité ;
-- tarification ;
-- garanties / exclusions / franchises ;
-- sinistre et couverture ;
-- fraude ;
-- extraction documentaire ;
-- audit ;
-- human review.
+Plateforme fictive **MayaInsurance IARD** : souscription, tarification, garanties, sinistre, fraude, extraction documentaire, audit et human review.
 
 ## Modules livrés
 
 ### I1–I4 — Decision Management IARD
 
-- XOM/BOM/BAL ;
-- Decision Tables / Ruleflows ;
-- DDD Underwriting/Pricing/Claim/Fraud ;
-- tarification / couverture / franchise ;
-- fraude synthétique ;
-- Decision ID / audit.
+XOM/BOM/BAL, Decision Tables/Ruleflows, DDD Underwriting/Pricing/Claim/Fraud, tarification, couverture, franchise, fraude synthétique et audit.
 
 ### I5 — Decision API
 
-- REST / OpenAPI 3.1 ;
-- idempotence ;
-- correlation ID ;
-- erreurs normalisées ;
-- OAuth2/OIDC et mTLS cible.
-
-```bash
-python -m unittest tests/test_decision_api.py
-```
+REST/OpenAPI 3.1, idempotence, correlation ID, erreurs normalisées, OAuth2/OIDC et mTLS cible.
 
 ### I6 — Event-Driven
 
-- `DecisionRequested` ;
-- `DecisionCompleted` ;
-- `ReviewRequired` ;
-- AsyncAPI 3.1 ;
-- Kafka-compatible / Redpanda ;
-- replay d’audit sans ré-exécution métier automatique.
-
-```bash
-python -m unittest tests/test_eventing.py
-```
+`DecisionRequested`, `DecisionCompleted`, `ReviewRequired`, AsyncAPI 3.1, Kafka-compatible/Redpanda et replay d’audit sans ré-exécution métier automatique.
 
 ### I7 — ML dans la décision
 
-- `riskScore` ;
-- `confidenceScore` ;
-- `modelVersion` ;
-- fallback ;
-- policy ODM consommant le score.
-
-Principe : **aucun score ML ne produit un rejet automatique.**
+`riskScore`, `confidenceScore`, `modelVersion`, fallback et policy ODM consommant le score. Aucun score ML ne produit un rejet automatique.
 
 ### I8 — GenAI documentaire
 
-- JSON Schema ;
-- prompt contract ;
-- extraction synthétique ;
-- confidence gating ;
-- fallback provider ;
-- `HUMAN_REVIEW` ;
-- `FORWARD_TO_ODM` uniquement après validation.
-
-Principe : **le GenAI ne produit jamais une décision métier finale.**
+JSON Schema, prompt contract, extraction synthétique, confidence gating, fallback provider et `FORWARD_TO_ODM` uniquement après validation. Le GenAI ne produit jamais une décision métier finale.
 
 ### I9 — MCP & Agentic AI
 
-Le dépôt expose maintenant trois tools gouvernés :
+Tools gouvernés :
 
 - `underwriting_decision` — scope `decision:underwriting` ;
 - `claim_decision` — scope `decision:claim` ;
 - `decision_audit_lookup` — scope `decision:audit.read`.
 
-Le lab cible **MCP 2026-07-28** avec une architecture stateless-compatible.
+Le lab cible MCP `2026-07-28`. Aucun tool d’override, paiement ou déploiement automatique n’est exposé.
 
-Garde-fous :
+## I10 — OpenShift Local / CRC
 
-- scopes évalués côté serveur ;
-- `toolCallId` + `correlationId` ;
-- aucun tool d’override de règles ;
-- aucun paiement / déploiement / clôture automatique ;
-- `REVIEW` reste human-in-the-loop ;
-- audit obligatoire.
+**Statut : PRÊTE POUR EXÉCUTION LOCALE — preuve CRC encore requise avant `DONE`.**
+
+Artefacts :
+
+- `Dockerfile` UBI Python ;
+- `BuildConfig` binaire + `ImageStream` ;
+- namespace / ServiceAccount ;
+- ResourceQuota / LimitRange ;
+- ConfigMap / Secret pattern ;
+- Deployment / Service / Route TLS ;
+- requests/limits ;
+- probes ;
+- NetworkPolicy default-deny ;
+- validation E2E + tests portables exécutés dans le pod ;
+- conservation automatique des preuves.
+
+Depuis un clone à jour :
 
 ```bash
-python mcp/decision_mcp_server.py --list-tools
-python mcp/decision_mcp_server.py --demo
-python -m unittest tests/test_mcp_guardrails.py
+git pull
+bash scripts/local-crc/deploy.sh
+bash scripts/local-crc/verify.sh
 ```
 
-Le serveur portable valide la sémantique et les politiques ; aucun serveur MCP de production n’est revendiqué comme exécuté.
+Le résultat de `verify.sh` doit être conservé dans `evidence/iteration-10/` avant de marquer l’itération terminée.
+
+### IBM ODM réel
+
+Le runtime IBM ODM licencié n’est pas embarqué dans le dépôt public. La stratégie d’intégration est documentée dans `deploy/openshift/IBM_ODM_RUNTIME.md`. Le lab CRC actuel exécute la façade portable et conserve les contrats nécessaires au futur adapter ODM.
 
 ## Stratégie de déploiement
 
@@ -143,6 +113,7 @@ Principe : **OpenShift Local d’abord, Azure ensuite**.
 ## État
 
 - **I0 à I9 : TERMINÉES**
-- **Prochaine : Itération 10 — OpenShift Local / CRC**
+- **I10 — OpenShift Local / CRC : PRÊTE À EXÉCUTER, validation locale requise**
+- **I11 Azure : après validation I10**
 
-Voir `docs/iteration-09/README.md`, `docs/00-roadmap.md` et `docs/BACKLOG.md`.
+Voir `docs/iteration-10/README.md`, `docs/00-roadmap.md` et `docs/BACKLOG.md`.
