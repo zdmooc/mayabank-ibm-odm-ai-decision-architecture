@@ -1,0 +1,7 @@
+claimId,policyActive,coveragePresent,eventCovered,claimedAmount,deductible,fraudScore,expectedDecision,expectedReason,expectedHumanReview,expectedIndemnity
+CLM-001,true,true,true,1800,300,0.20,PAY,COVERAGE_CONFIRMED,false,1500
+CLM-002,false,true,true,1200,200,0.10,REJECT,POLICY_INACTIVE,false,0
+CLM-003,true,false,true,2200,250,0.15,REJECT,COVERAGE_NOT_PRESENT,false,0
+CLM-004,true,true,false,1500,200,0.12,REJECT,EVENT_NOT_COVERED,false,0
+CLM-005,true,true,true,3500,500,0.63,REVIEW,FRAUD_MEDIUM_SCORE,true,3000
+CLM-006,true,true,true,4200,600,0.91,REVIEW,FRAUD_HIGH_SCORE,true,3600
