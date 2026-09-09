@@ -66,12 +66,14 @@ Construire un POC démontrable d’architecture de décision IARD combinant IBM 
 
 **DoD atteint** : façade Decision API v1, OpenAPI 3.1, idempotence, correlation ID, erreurs `ProblemDetails`, client et serveur de référence portables, tests fonctionnels, architecture OAuth2/OIDC et mTLS documentée. Aucun IAM réel ni runtime IBM ODM n’est revendiqué comme exécuté à ce stade.
 
-### I6 — Event-Driven — P1
-- [ ] Événements DecisionRequested / DecisionCompleted / ReviewRequired
-- [ ] AsyncAPI
-- [ ] Kafka local ou composant compatible
-- [ ] Correlation ID
-- [ ] Audit et replay maîtrisé
+### I6 — Event-Driven — DONE
+- [x] Événements DecisionRequested / DecisionCompleted / ReviewRequired
+- [x] AsyncAPI
+- [x] Kafka local ou composant compatible
+- [x] Correlation ID
+- [x] Audit et replay maîtrisé
+
+**DoD atteint** : AsyncAPI 3.1, topics versionnés, configuration Redpanda/Kafka-compatible locale, journal synthétique, correlation/causation IDs, stratégie at-least-once/idempotence, replay d’audit et tests de non-régression. Le replay ne ré-exécute jamais automatiquement une décision sensible.
 
 ### I7 — ML dans la décision — P0
 - [ ] Modèle simple de scoring risque/fraude
