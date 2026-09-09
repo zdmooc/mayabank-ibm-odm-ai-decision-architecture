@@ -47,12 +47,14 @@ Construire un POC démontrable d’architecture de décision IARD combinant IBM 
 
 **DoD atteint** : service logique `underwriting-offer`, tables Pricing/Policy, dataset synthétique et validateur `python tools/validate_iteration_03.py`. Les règles restent fictives et la validation est portable ; le runtime IBM ODM sera traité dans les itérations de lab.
 
-### I4 — Sinistre & fraude — P0
-- [ ] Décision de couverture
-- [ ] Calcul / contrôle de franchise
-- [ ] Score fraude simulé
-- [ ] Human review sur seuils sensibles
-- [ ] Audit Decision ID + rule version
+### I4 — Sinistre & fraude — DONE
+- [x] Décision de couverture
+- [x] Calcul / contrôle de franchise
+- [x] Score fraude simulé
+- [x] Human review sur seuils sensibles
+- [x] Audit Decision ID + rule version
+
+**DoD atteint** : service logique Claim/Fraud, règles de couverture, seuils de fraude synthétiques, dataset sinistre, audit JSONL et validateur `python tools/validate_iteration_04.py`. Aucun score simulé n’a autorité pour rejeter seul une décision sensible.
 
 ### I5 — API-First — P0
 - [ ] Decision API REST
