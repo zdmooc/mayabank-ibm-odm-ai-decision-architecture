@@ -51,11 +51,14 @@ Construire progressivement une architecture de décision IARD moderne, gouverné
 - human review ;
 - audit Decision ID + versions.
 
-### Itération 5 — API & intégration
-- REST/OpenAPI ;
-- idempotence ;
-- timeouts/retries ;
-- sécurité OAuth2/OIDC/mTLS.
+### Itération 5 — API & intégration — TERMINÉE
+- Decision API REST ;
+- OpenAPI 3.1 ;
+- idempotence et correlation ID ;
+- timeouts/retries et erreurs normalisées ;
+- architecture OAuth2/OIDC ;
+- mTLS cible entreprise ;
+- serveur/client/tests portables.
 
 ### Itération 6 — Event-Driven
 - événements de décision ;
