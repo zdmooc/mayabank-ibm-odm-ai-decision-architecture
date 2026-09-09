@@ -98,7 +98,29 @@ python tools/validate_iteration_04.py
 
 Principe : **un score de fraude simulé ne peut pas rejeter seul une décision sensible ; il déclenche une revue humaine.**
 
-Ces scripts verrouillent la sémantique portable. Ils ne remplacent pas un futur déploiement sur runtime IBM ODM.
+## Decision API v1
+
+L’Itération 5 ajoute une façade API stable devant les Decision Services :
+
+- `POST /v1/decisions/underwriting` ;
+- `POST /v1/decisions/claims` ;
+- OpenAPI 3.1 ;
+- `Idempotency-Key` ;
+- `X-Correlation-Id` ;
+- erreurs normalisées `ProblemDetails` ;
+- timeout/retry documentés ;
+- architecture OAuth2/OIDC ;
+- mTLS cible entreprise.
+
+Validation portable :
+
+```bash
+python -m unittest tests/test_decision_api.py
+python api/reference_decision_api.py
+python api/sample_client.py
+```
+
+Le serveur portable ne remplace pas un API Gateway, un IAM ou un runtime IBM ODM réel.
 
 ## Stratégie de déploiement
 
@@ -148,9 +170,10 @@ Principe : **OpenShift Local d’abord, Azure ensuite**.
 - **Itération 2 — DDD / modèle métier IARD : TERMINÉE**
 - **Itération 3 — Souscription, tarification et offre IARD : TERMINÉE**
 - **Itération 4 — Sinistre & fraude : TERMINÉE**
-- **Prochaine : Itération 5 — API-First**
+- **Itération 5 — API-First : TERMINÉE**
+- **Prochaine : Itération 6 — Event-Driven**
 
-Voir `docs/iteration-04/README.md`.
+Voir `docs/iteration-05/README.md`.
 
 ## Roadmap
 
