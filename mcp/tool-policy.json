@@ -1,0 +1,31 @@
+{
+  "protocolTarget": "2026-07-28",
+  "policyVersion": "mcp-policy-v1",
+  "tools": {
+    "underwriting_decision": {
+      "requiredScopes": ["decision:underwriting"],
+      "sensitive": true,
+      "humanReviewOn": ["REVIEW"],
+      "allowFinalOverride": false
+    },
+    "claim_decision": {
+      "requiredScopes": ["decision:claim"],
+      "sensitive": true,
+      "humanReviewOn": ["REVIEW"],
+      "allowFinalOverride": false
+    },
+    "decision_audit_lookup": {
+      "requiredScopes": ["decision:audit.read"],
+      "sensitive": false,
+      "readOnly": true
+    }
+  },
+  "forbiddenCapabilities": [
+    "approve-payment",
+    "reject-final",
+    "override-rule",
+    "modify-policy",
+    "deploy-ruleapp",
+    "auto-close-review"
+  ]
+}
