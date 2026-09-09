@@ -83,14 +83,16 @@ Construire un POC démontrable d’architecture de décision IARD combinant IBM 
 - [x] Règles ODM exploitant le score
 - [x] Tests sur seuils
 
-**DoD atteint** : modèle synthétique `fraud-risk-v1`, score et confiance versionnés, fallback sur indisponibilité/faible confiance, politique ODM portable et tests `python -m unittest tests/test_ml_fraud.py`. Le ML ne peut jamais produire seul un rejet automatique.
+**DoD atteint** : scoring fraude synthétique versionné, `confidenceScore`, fallback faible confiance/modèle indisponible, politique ODM consommant le score et tests. Aucun rejet automatique n’est piloté par le ML seul.
 
-### I8 — GenAI documentaire — P1
-- [ ] Extraction structurée depuis document synthétique
-- [ ] Validation schéma JSON
-- [ ] Confidence gating
-- [ ] Rejet / human review si confiance faible
-- [ ] Interdiction d’une décision sensible par LLM seul
+### I8 — GenAI documentaire — DONE
+- [x] Extraction structurée depuis document synthétique
+- [x] Validation schéma JSON
+- [x] Confidence gating
+- [x] Rejet / human review si confiance faible
+- [x] Interdiction d’une décision sensible par LLM seul
+
+**DoD atteint** : JSON Schema, prompt contract, adapter portable sur sorties GenAI synthétiques, seuil de confiance, fallback fournisseur indisponible, human review et tests. Seules les extractions validées sont transmises à ODM ; aucun fournisseur LLM réel n’est revendiqué comme exécuté.
 
 ### I9 — MCP & Agentic AI — P1
 - [ ] Exposer Decision Services comme tools
