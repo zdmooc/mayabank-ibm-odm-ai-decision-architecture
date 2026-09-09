@@ -1,0 +1,138 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: decision-api
+  namespace: mayainsurance-decision-local
+  labels:
+    app: decision-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: decision-api
+  template:
+    metadata:
+      labels:
+        app: decision-api
+    spec:
+      serviceAccountName: decision-api
+      containers:
+        - name: decision-api
+          image: image-registry.openshift-image-registry.svc:5000/mayainsurance-decision-local/decision-api:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: decision-api-config
+          env:
+            - name: LAB_BEARER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: decision-api-secret
+                  key: LAB_BEARER_TOKEN
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+            initialDelaySeconds: 2
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop: ["ALL"]
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: decision-api
+  namespace: mayainsurance-decision-local
+spec:
+  selector:
+    app: decision-api
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: decision-api
+  namespace: mayainsurance-decision-local
+spec:
+  to:
+    kind: Service
+    name: decision-api
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: mayainsurance-decision-local
+spec:
+  podSelector: {}
+  policyTypes: [Ingress, Egress]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-decision-api
+  namespace: mayainsurance-decision-local
+spec:
+  podSelector:
+    matchLabels:
+      app: decision-api
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: openshift-ingress
+      ports:
+        - protocol: TCP
+          port: 8080
+    - from:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 8080
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: openshift-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    - to:
+        - podSelector: {}
