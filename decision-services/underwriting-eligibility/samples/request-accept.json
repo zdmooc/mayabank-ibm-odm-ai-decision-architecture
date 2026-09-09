@@ -1,0 +1,9 @@
+{
+  "requestId": "REQ-ACCEPT-001",
+  "applicantAge": 35,
+  "productType": "AUTO",
+  "drivingLicenseYears": 12,
+  "recentClaims": 0,
+  "incompleteFile": false,
+  "declaredRiskLevel": "LOW"
+}
