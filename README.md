@@ -64,7 +64,7 @@ ACCEPT / REJECT / REVIEW / PRICE / COVERAGE
 
 ## Souscription IARD v1
 
-Les Itérations 1 à 3 fournissent maintenant :
+Les Itérations 1 à 3 fournissent :
 
 - un Decision Service portable d’éligibilité ;
 - un modèle DDD IARD ;
@@ -78,6 +78,25 @@ Validation :
 python tools/validate_iteration_01.py
 python tools/validate_iteration_03.py
 ```
+
+## Sinistre & fraude v1
+
+L’Itération 4 ajoute :
+
+- décision de couverture ;
+- calcul de franchise et montant indemnisable ;
+- score fraude **simulé** ;
+- revue humaine pour les scores sensibles ;
+- `decisionId`, `ruleVersion` et reason codes ;
+- audit JSONL synthétique.
+
+Validation :
+
+```bash
+python tools/validate_iteration_04.py
+```
+
+Principe : **un score de fraude simulé ne peut pas rejeter seul une décision sensible ; il déclenche une revue humaine.**
 
 Ces scripts verrouillent la sémantique portable. Ils ne remplacent pas un futur déploiement sur runtime IBM ODM.
 
@@ -128,9 +147,10 @@ Principe : **OpenShift Local d’abord, Azure ensuite**.
 - **Itération 1 — Fondamentaux ODM & premier Decision Service IARD : TERMINÉE**
 - **Itération 2 — DDD / modèle métier IARD : TERMINÉE**
 - **Itération 3 — Souscription, tarification et offre IARD : TERMINÉE**
-- **Prochaine : Itération 4 — Sinistre & fraude**
+- **Itération 4 — Sinistre & fraude : TERMINÉE**
+- **Prochaine : Itération 5 — API-First**
 
-Voir `docs/iteration-03/README.md`.
+Voir `docs/iteration-04/README.md`.
 
 ## Roadmap
 
