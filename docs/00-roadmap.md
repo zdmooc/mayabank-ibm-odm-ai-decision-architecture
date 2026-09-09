@@ -11,127 +11,58 @@ Construire progressivement une architecture de décision IARD moderne, gouverné
 - **Azure Red Hat OpenShift (ARO)** : option entreprise lorsque le besoin impose OpenShift managé sur Azure.
 - Même logique métier, mêmes contrats API et mêmes Decision Services sur toutes les cibles.
 - Différences de plateforme gérées par manifests, Helm/Kustomize, overlays, secrets et IaC.
-- Aucun lab cloud coûteux ne reste déployé inutilement après validation.
 
 ## Itérations
 
 ### Itération 0 — Cadrage et gouvernance — TERMINÉE
-- positionnement Architecte Solution ;
-- domaine fictif MayaInsurance IARD ;
-- anonymisation ;
-- séparation règle / ML / GenAI / humain ;
-- NFR ;
-- stratégie CRC -> Azure.
+- positionnement Architecte Solution ; domaine fictif ; anonymisation ; NFR ; stratégie CRC -> Azure.
 
 ### Itération 1 — Fondamentaux ODM — TERMINÉE
-- Decision Center / Decision Server / Rule Designer ;
-- XOM, BOM, vocabulaire, BAL ;
-- Decision Table, Ruleflow, RuleApp, Ruleset ;
-- premier Decision Service IARD.
+- Decision Center / Decision Server / Rule Designer ; XOM/BOM/BAL ; Decision Table ; Ruleflow ; premier Decision Service.
 
 ### Itération 2 — Modèle métier IARD / DDD — TERMINÉE
-- bounded contexts Underwriting, Pricing, Claim, Fraud ;
-- agrégats et objets métier ;
-- ubiquitous language ;
-- context map ;
-- décisions / événements ;
-- vue C4 logique.
+- bounded contexts Underwriting/Pricing/Claim/Fraud ; context map ; ubiquitous language ; décisions/événements ; vue C4.
 
 ### Itération 3 — Souscription & éligibilité — TERMINÉE
-- règles d’éligibilité ;
-- tarification simple ;
-- garanties / exclusions / franchises ;
-- exceptions ;
-- tests de non-régression.
+- éligibilité ; tarification ; garanties/exclusions/franchises ; tests de non-régression.
 
 ### Itération 4 — Sinistre & fraude — TERMINÉE
-- règles de couverture ;
-- franchise ;
-- score fraude simulé ;
-- human review ;
-- audit Decision ID + versions.
+- couverture ; franchise ; score fraude simulé ; human review ; audit/versioning.
 
 ### Itération 5 — API & intégration — TERMINÉE
-- Decision API REST ;
-- OpenAPI 3.1 ;
-- idempotence et correlation ID ;
-- timeouts/retries et erreurs normalisées ;
-- architecture OAuth2/OIDC ;
-- mTLS cible entreprise ;
-- serveur/client/tests portables.
+- Decision API REST ; OpenAPI 3.1 ; idempotence ; correlation ID ; erreurs ; OAuth2/OIDC ; mTLS cible.
 
 ### Itération 6 — Event-Driven — TERMINÉE
-- événements `DecisionRequested`, `DecisionCompleted`, `ReviewRequired` ;
-- AsyncAPI 3.1 ;
-- topics versionnés ;
-- Kafka-compatible local / Redpanda ;
-- correlation ID / causation ID ;
-- stratégie at-least-once + idempotence ;
-- audit et replay sans ré-exécution métier automatique.
+- DecisionRequested / DecisionCompleted / ReviewRequired ; AsyncAPI 3.1 ; Kafka-compatible ; audit ; replay maîtrisé.
 
-### Itération 7 — ML dans la décision
-- score de risque/fraude ;
-- seuils ;
-- gouvernance de version de modèle ;
-- confidence score ;
-- fallback sans ML ;
-- règles ODM exploitant le score.
+### Itération 7 — ML dans la décision — TERMINÉE
+- score risque/fraude ; `modelVersion` ; `confidenceScore` ; fallback ; politique ODM consommant le score ; tests sur seuils ; aucun rejet automatique par ML seul.
 
 ### Itération 8 — GenAI documentaire
 - extraction de pièces ;
-- structuration des informations ;
+- structuration JSON ;
+- validation de schéma ;
 - confidence gating ;
+- human review si confiance faible ;
 - passage à ODM pour décision gouvernée.
 
 ### Itération 9 — MCP & Agents
-- Decision Services comme outils ;
-- agent contrôlé ;
-- permissions, audit, garde-fous ;
-- aucune décision sensible laissée au LLM seul.
+- Decision Services comme outils ; agent contrôlé ; permissions ; audit ; garde-fous.
 
 ### Itération 10 — Déploiement OpenShift Local / CRC
-- namespace/projet ;
-- workloads ODM et services applicatifs ;
-- Services / Routes ;
-- ConfigMaps / Secrets ;
-- NetworkPolicy ;
-- quotas / requests / limits ;
-- probes ;
-- scaling ;
-- validation E2E locale avec preuves.
+- namespace ; workloads ODM/services ; Services/Routes ; ConfigMaps/Secrets ; NetworkPolicy ; quotas/requests/limits ; probes ; E2E local.
 
 ### Itération 11 — Azure
-- portage vers AKS ;
-- ARO documenté comme alternative OpenShift managée ;
-- registry, identité, réseau, secrets et observabilité Azure ;
-- IaC et destruction contrôlée du lab ;
-- test de parité fonctionnelle Local/CRC vs Azure.
+- AKS ; ARO alternatif ; registry ; identité ; réseau ; secrets ; observabilité ; IaC ; parité fonctionnelle.
 
 ### Itération 12 — GitOps / CI-CD
-- promotion multi-environnements ;
-- versioning règles/code ;
-- overlays local/Azure ;
-- rollback ;
-- quality gates.
+- promotion multi-environnements ; versioning règles/code ; overlays ; rollback ; quality gates.
 
 ### Itération 13 — Observabilité & audit
-- métriques ;
-- traces ;
-- décision ID ;
-- rule/model version ;
-- SLI/SLO.
+- métriques ; traces ; decision ID ; rule/model version ; SLI/SLO.
 
 ### Itération 14 — HA / PRA / sécurité
-- RTO/RPO ;
-- topologie cible ;
-- sauvegarde/reprise ;
-- tests de panne ;
-- différences entre lab local et cible entreprise.
+- RTO/RPO ; topologie ; sauvegarde/reprise ; tests de panne ; IAM/RBAC ; différences lab/cible entreprise.
 
 ### Itération 15 — Soutenance Architecte Solution
-- HLD ;
-- ADR ;
-- risques ;
-- arbitrages ;
-- comparaison OpenShift Local / AKS / ARO ;
-- scénario entretien banque/assurance.
+- HLD ; ADR ; risques ; arbitrages ; comparaison CRC/AKS/ARO ; scénario entretien.
