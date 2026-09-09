@@ -37,13 +37,15 @@ Construire un POC démontrable d’architecture de décision IARD combinant IBM 
 
 **DoD atteint** : context map, modèle de domaine, ubiquitous language, matrice décisions/événements et vue C4 logique livrés. IBM ODM reste une plateforme de décision et non un bounded context métier.
 
-### I3 — Souscription & éligibilité — P0
-- [ ] Règles d’éligibilité
-- [ ] Tarification simple
-- [ ] Garanties / exclusions / franchises
-- [ ] Cas ACCEPT / REJECT / REVIEW
-- [ ] Jeu de données synthétique
-- [ ] Tests de non-régression de règles
+### I3 — Souscription & éligibilité — DONE
+- [x] Règles d’éligibilité
+- [x] Tarification simple
+- [x] Garanties / exclusions / franchises
+- [x] Cas ACCEPT / REJECT / REVIEW
+- [x] Jeu de données synthétique
+- [x] Tests de non-régression de règles
+
+**DoD atteint** : service logique `underwriting-offer`, tables Pricing/Policy, dataset synthétique et validateur `python tools/validate_iteration_03.py`. Les règles restent fictives et la validation est portable ; le runtime IBM ODM sera traité dans les itérations de lab.
 
 ### I4 — Sinistre & fraude — P0
 - [ ] Décision de couverture
