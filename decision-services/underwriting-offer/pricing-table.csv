@@ -1,0 +1,4 @@
+risk_level,base_premium_eur,risk_coefficient,claims_coefficient_0,claims_coefficient_1,claims_coefficient_2
+LOW,420.00,0.90,1.00,1.08,1.18
+MEDIUM,480.00,1.00,1.00,1.10,1.22
+HIGH,600.00,1.25,1.00,1.15,1.30
