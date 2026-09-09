@@ -1,0 +1,4 @@
+risk_level,liability,assistance,damage,damage_exclusion,deductible_eur
+LOW,true,true,true,false,250.00
+MEDIUM,true,true,true,false,450.00
+HIGH,true,true,false,true,750.00
