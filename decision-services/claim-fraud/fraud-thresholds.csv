@@ -1,0 +1,4 @@
+priority,rule_id,minScore,maxScore,decision,reasonCode,humanReviewRequired
+100,F-HIGH,0.80,1.00,REVIEW,FRAUD_HIGH_SCORE,true
+90,F-MEDIUM,0.55,0.79,REVIEW,FRAUD_MEDIUM_SCORE,true
+10,F-LOW,0.00,0.54,STANDARD,FRAUD_LOW_SCORE,false
