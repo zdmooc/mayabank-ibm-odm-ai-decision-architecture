@@ -6,8 +6,8 @@ Construire progressivement une architecture de décision IARD moderne, gouverné
 
 ## Stratégie de déploiement transverse
 
-- **OpenShift Local / CRC** : cible prioritaire des labs et validations locales.
-- **Azure AKS** : cible cloud Kubernetes de référence.
+- **OpenShift Local / CRC** : validé en I10 avec preuve reproductible.
+- **Azure AKS** : cible cloud Kubernetes de référence pour I11.
 - **Azure Red Hat OpenShift (ARO)** : option entreprise lorsque le besoin impose OpenShift managé sur Azure.
 - Même logique métier, mêmes contrats API et mêmes Decision Services sur toutes les cibles.
 - Aucun lab n’est déclaré exécuté sans preuve reproductible.
@@ -44,7 +44,7 @@ Extraction structurée, JSON Schema, prompt contract, confidence gating, fallbac
 ### I9 — MCP & Agentic AI — TERMINÉE
 Cible MCP `2026-07-28`, tools Underwriting/Claim/Audit, scopes, serveur portable stateless-compatible, audit et garde-fous agentiques.
 
-### I10 — OpenShift Local / CRC — PRÊTE POUR EXÉCUTION
+### I10 — OpenShift Local / CRC — TERMINÉE
 - Dockerfile portable ;
 - BuildConfig binaire + ImageStream ;
 - namespace / ServiceAccount ;
@@ -55,13 +55,25 @@ Cible MCP `2026-07-28`, tools Underwriting/Claim/Audit, scopes, serveur portable
 - NetworkPolicy ;
 - liveness/readiness probes ;
 - scripts `deploy.sh` et `verify.sh` ;
-- génération de preuve `evidence/iteration-10/` ;
-- runtime IBM ODM licencié documenté comme intégration future séparée.
+- build réel validé sur CRC 4.22.7 ;
+- E2E Underwriting `ACCEPT` ;
+- correlation ID validé ;
+- 25 tests exécutés dans le pod avec `OK` ;
+- `RESULT=PASS` ;
+- preuve résumée dans `evidence/iteration-10/verification-summary.md`.
 
-**Gate restant** : exécuter sur le CRC de l'utilisateur, obtenir rollout + E2E verts et conserver la preuve avant `DONE`.
+Le runtime IBM ODM licencié reste une intégration séparée et n'est pas revendiqué comme exécuté.
 
-### I11 — Azure
-Ne démarre qu'après validation I10. Portage AKS, ARO comme alternative, registry/identité/réseau/secrets, IaC, parité CRC/Azure et destroy contrôlé.
+### I11 — Azure AKS / ARO
+- définir la cible AKS ;
+- documenter ARO comme alternative OpenShift managée ;
+- IaC ;
+- registry ;
+- identité ;
+- réseau ;
+- secrets ;
+- parité fonctionnelle avec CRC ;
+- script destroy / maîtrise coûts.
 
 ### I12 — GitOps / CI-CD
 Promotion multi-environnements, versioning règles/code, overlays local/Azure, rollback et quality gates.
