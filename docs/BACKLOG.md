@@ -56,13 +56,15 @@ Construire un POC démontrable d’architecture de décision IARD combinant IBM 
 
 **DoD atteint** : service logique Claim/Fraud, règles de couverture, seuils de fraude synthétiques, dataset sinistre, audit JSONL et validateur `python tools/validate_iteration_04.py`. Aucun score simulé n’a autorité pour rejeter seul une décision sensible.
 
-### I5 — API-First — P0
-- [ ] Decision API REST
-- [ ] OpenAPI
-- [ ] Idempotence
-- [ ] Timeouts / retries / erreurs
-- [ ] OAuth2/OIDC
-- [ ] mTLS documenté pour cible entreprise
+### I5 — API-First — DONE
+- [x] Decision API REST
+- [x] OpenAPI
+- [x] Idempotence
+- [x] Timeouts / retries / erreurs
+- [x] OAuth2/OIDC
+- [x] mTLS documenté pour cible entreprise
+
+**DoD atteint** : façade Decision API v1, OpenAPI 3.1, idempotence, correlation ID, erreurs `ProblemDetails`, client et serveur de référence portables, tests fonctionnels, architecture OAuth2/OIDC et mTLS documentée. Aucun IAM réel ni runtime IBM ODM n’est revendiqué comme exécuté à ce stade.
 
 ### I6 — Event-Driven — P1
 - [ ] Événements DecisionRequested / DecisionCompleted / ReviewRequired
