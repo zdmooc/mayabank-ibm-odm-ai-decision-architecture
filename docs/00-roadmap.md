@@ -15,35 +15,34 @@ Construire progressivement une architecture de décision IARD moderne, gouverné
 
 ## Itérations
 
-### Itération 0 — Cadrage et gouvernance
-Statut : **TERMINÉE**
+### Itération 0 — Cadrage et gouvernance — TERMINÉE
+- positionnement Architecte Solution ;
+- domaine fictif MayaInsurance IARD ;
+- anonymisation ;
+- séparation règle / ML / GenAI / humain ;
+- NFR ;
+- stratégie CRC -> Azure.
 
-- définir le positionnement Architecte Solution ;
-- définir le domaine fictif MayaInsurance IARD ;
-- fixer les règles d’anonymisation ;
-- distinguer règle / ML / GenAI / humain ;
-- définir les NFR et principes d’architecture ;
-- définir OpenShift Local / CRC comme cible prioritaire ;
-- définir Azure AKS comme cible cloud et ARO comme option ;
-- créer la roadmap.
-
-### Itération 1 — Fondamentaux ODM
+### Itération 1 — Fondamentaux ODM — TERMINÉE
 - Decision Center / Decision Server / Rule Designer ;
 - XOM, BOM, vocabulaire, BAL ;
 - Decision Table, Ruleflow, RuleApp, Ruleset ;
 - premier Decision Service IARD.
 
-### Itération 2 — Modèle métier IARD
-- bounded contexts utiles ;
-- underwriting, pricing, claim, fraud ;
-- dictionnaire métier ;
-- modèle de décision et traçabilité.
+### Itération 2 — Modèle métier IARD / DDD — TERMINÉE
+- bounded contexts Underwriting, Pricing, Claim, Fraud ;
+- agrégats et objets métier ;
+- ubiquitous language ;
+- context map ;
+- décisions / événements ;
+- vue C4 logique.
 
 ### Itération 3 — Souscription & éligibilité
 - règles d’éligibilité ;
 - tarification simple ;
+- garanties / exclusions / franchises ;
 - exceptions ;
-- tests unitaires et scénarios métier.
+- tests de non-régression.
 
 ### Itération 4 — Sinistre & fraude
 - règles de couverture ;
